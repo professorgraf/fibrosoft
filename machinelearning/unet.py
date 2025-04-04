@@ -631,12 +631,8 @@ class UNetProcessing(mlprocessing.MLProcessing):
         #f.close()
 
         trans = self._get_transforms()
-        if not self.unsupervised:
-            self.training_dataset = SegmentationDataset(image_paths=trainImages, mask_paths=trainMasks, transforms=trans)
-            self.test_dataset = SegmentationDataset(image_paths=testImages, mask_paths=testMasks, transforms=trans)
-        else:
-            self.training_dataset = UnsupervisedMaskedTrainingDataset(image_paths=trainImages, transforms=trans, neighborhood=1)
-            self.test_dataset = UnsupervisedMaskedTrainingDataset(image_paths=testImages, transforms=trans, neighborhood=1)
+        self.training_dataset = SegmentationDataset(image_paths=trainImages, mask_paths=trainMasks, transforms=trans)
+        self.test_dataset = SegmentationDataset(image_paths=testImages, mask_paths=testMasks, transforms=trans)
 
         if self.device == 'mps':
             self.training_loader = DataLoader(self.training_dataset, shuffle=True, batch_size=BATCH_SIZE,
