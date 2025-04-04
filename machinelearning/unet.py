@@ -11,6 +11,8 @@ import numpy as np
 from PIL import Image
 
 from adjustableimagecanvas import Marker
+from numpy.ma.core import masked
+
 from machinelearning import mlprocessing
 from machinelearning import mlexceptions
 
@@ -232,6 +234,7 @@ class UnsupervisedMaskedTrainingDataset(Dataset):
 
     def __getitem__(self, idx):
         image_path = self.imagePaths[idx]
+        self.masking_ratio /= 100
         # load the image from disk
         image = Image.open(image_path)                                  # input image will be destroyed
         label = image.copy()                                            # label image will be kept in its original version
@@ -241,7 +244,7 @@ class UnsupervisedMaskedTrainingDataset(Dataset):
 
         black = 0
         if image.mode == 'RGB':
-            black = (0, 0, 0)
+            black = (0, 0, 255)
         elif image.mode == 'RGBA':
             black = (0, 0, 0, 255)
         for i in range(0, noptbm):
