@@ -1,4 +1,21 @@
-
+#
+# U-Net with masked pre-training functionality
+#
+# Copyright (C)2022-2025  Prof. Dr. Markus Graf
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
 import os
 import random
 import time
@@ -11,8 +28,6 @@ import numpy as np
 from PIL import Image
 
 from adjustableimagecanvas import Marker
-from numpy.ma.core import masked
-
 from machinelearning import mlprocessing
 from machinelearning import mlexceptions
 
@@ -234,7 +249,6 @@ class UnsupervisedMaskedTrainingDataset(Dataset):
 
     def __getitem__(self, idx):
         image_path = self.imagePaths[idx]
-        self.masking_ratio /= 100
         # load the image from disk
         image = Image.open(image_path)                                  # input image will be destroyed
         label = image.copy()                                            # label image will be kept in its original version
@@ -244,7 +258,7 @@ class UnsupervisedMaskedTrainingDataset(Dataset):
 
         black = 0
         if image.mode == 'RGB':
-            black = (0, 0, 255)
+            black = (0, 0, 0)
         elif image.mode == 'RGBA':
             black = (0, 0, 0, 255)
         for i in range(0, noptbm):
@@ -631,8 +645,12 @@ class UNetProcessing(mlprocessing.MLProcessing):
         #f.close()
 
         trans = self._get_transforms()
-        self.training_dataset = SegmentationDataset(image_paths=trainImages, mask_paths=trainMasks, transforms=trans)
-        self.test_dataset = SegmentationDataset(image_paths=testImages, mask_paths=testMasks, transforms=trans)
+        if not self.unsupervised:
+            self.training_dataset = SegmentationDataset(image_paths=trainImages, mask_paths=trainMasks, transforms=trans)
+            self.test_dataset = SegmentationDataset(image_paths=testImages, mask_paths=testMasks, transforms=trans)
+        else:
+            self.training_dataset = UnsupervisedMaskedTrainingDataset(image_paths=trainImages, transforms=trans, neighborhood=1)
+            self.test_dataset = UnsupervisedMaskedTrainingDataset(image_paths=testImages, transforms=trans, neighborhood=1)
 
         if self.device == 'mps':
             self.training_loader = DataLoader(self.training_dataset, shuffle=True, batch_size=BATCH_SIZE,
