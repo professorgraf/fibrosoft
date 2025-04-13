@@ -13,8 +13,12 @@ Use at own risk.
 
 For more information see license.md
 
+*** Important: ***
 For scientific use & citation please come back at a later point - resp. contact me in the meantime
 markus.graf@hs-heilbronn.de
+You can cite the general idea of semi/fully automated fibrosis detection by citing:
+
+Remes, A., Noormalal, M., Schmiedel, N., Frey, N., Frank, D., Müller, OJ., Graf, M. Adapted clustering method for generic analysis of histological fibrosis staining as an open source tool. Sci Rep 13, 4389 (2023). https://doi.org/10.1038/s41598-023-30196-9
 
 ```
 Modification history  
@@ -55,6 +59,11 @@ version   author  changes
 - 1.0.0     gm      first Release (0.19 with some minor adjustments)      
 ```
 
+# Command line tool for segmentation
+```
+python fibrounet_run.py /home/user/data/folder/test --network UNet --model /path/to/model.phy --outpath /path/to/results --classes 3 --accuracy --iou --dice
+```
+
 # Command line tool for UNet
 Command line starting the UNet training with a folder structure
 
@@ -62,6 +71,7 @@ Command line starting the UNet training with a folder structure
 +-images
   +- train      # containing training images
   +- labels     # containing corresponding labels to the images above
+                #  label images must have the same name like training images starting with labels_
 ```
 
 Run default UNet first time using *Adam* optimizer, a learning rate of *4.5e-5* and train for *200* epochs
