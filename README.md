@@ -13,6 +13,9 @@ Use at own risk.
 
 For more information see license.md
 
+For scientific use & citation please come back at a later point - resp. contact me in the meantime
+markus.graf@hs-heilbronn.de
+
 ```
 Modification history  
 version   author  changes  
