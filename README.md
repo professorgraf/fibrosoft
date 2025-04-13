@@ -13,13 +13,14 @@ Use at own risk.
 
 For more information see license.md
 
-*** Important: ***
+***Important:***  
 For scientific use & citation please come back at a later point - resp. contact me in the meantime
 markus.graf@hs-heilbronn.de
-You can cite the general idea of semi/fully automated fibrosis detection by citing:
 
-Remes, A., Noormalal, M., Schmiedel, N., Frey, N., Frank, D., Müller, OJ., Graf, M. Adapted clustering method for generic analysis of histological fibrosis staining as an open source tool. Sci Rep 13, 4389 (2023). https://doi.org/10.1038/s41598-023-30196-9
-
+---
+Meanwhile, if you want, you can read on and cite the general idea of semi/fully automated fibrosis detection by citing:
+```Remes, A., Noormalal, M., Schmiedel, N., Frey, N., Frank, D., Müller, OJ., Graf, M. Adapted clustering method for generic analysis of histological fibrosis staining as an open source tool. Sci Rep 13, 4389 (2023). https://doi.org/10.1038/s41598-023-30196-9```
+--- 
 ```
 Modification history  
 version   author  changes  
